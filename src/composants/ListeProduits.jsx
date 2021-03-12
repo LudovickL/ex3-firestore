@@ -10,12 +10,13 @@ export default function ListeProduits({props}) {
   /******* Ex#3 - Étape E ********************************/ 
   // Créer un "état" React pour les produits (utiliser useState)
   const [produits] = useState([]);
+  
     
   useEffect(() => {
     async function getProduits() {
       // On initialise un tableau pour contenir les produits extraits de Firestore
       const tabProduits = [];
-      
+      console.log(tabProduits);
       
       /******* Ex#3 - Étape F ********************************/ 
       // Faire une requête à la collection de produits sur Firestore et remplir les tableau tabProduits avec les données de produits retournées par Firestore
@@ -47,9 +48,7 @@ export default function ListeProduits({props}) {
         */}
         {
           produits.map(
-            produit => <li key={produit.id}>
-              <Produit id={produit.id} nom={produit.nom} prix={produit.prix}/>
-              </li>
+            produit => <Produit etatPanier={props.etatPanier} key={produit.id} nom={produit.nom} prix={produit.prix}/>
           )
         }
       </ul>
