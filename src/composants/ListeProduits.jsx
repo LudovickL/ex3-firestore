@@ -6,30 +6,35 @@ import { useEffect, useState } from 'react';
 import bd from '../data/firebase';
 
 
-export default function ListeProduits({props}) {
+export default function ListeProduits(props) {
   /******* Ex#3 - Étape E ********************************/ 
   // Créer un "état" React pour les produits (utiliser useState)
-  const [produits] = useState([]);
+  const [produits, setProduits] = useState([]);
   
     
   useEffect(() => {
     async function getProduits() {
       // On initialise un tableau pour contenir les produits extraits de Firestore
       const tabProduits = [];
-      console.log(tabProduits);
+      
       
       /******* Ex#3 - Étape F ********************************/ 
       // Faire une requête à la collection de produits sur Firestore et remplir les tableau tabProduits avec les données de produits retournées par Firestore
       // [Suggestion : remarquez que la fonction getProduits() est marquée 'async'. Lorsque vous appelez la méthode Firestore qui retourne les produits, cette fonction 
       // est une Promesse, vous pouvez simplement utiliser la syntax 'await' pour attendre le résultat avant de remplir le tableau tabProduits 
       // (visionnez la capsule au sujet du code asynchrone en JavaScript)]
-      const reponse = await bd.collection('ex3-produits').get();
+      const reponse = await bd.collection("ex3-produits").get().then(
+        
       
-      /******* Ex#3 - Étape G ********************************/ 
-      // Modifier l'état des produits (initialisé ci-dessus avec useState) en utilisant le mutateur et le tableau tabProduits
-      reponse.forEach(
-        produit => tabProduits.push(produit.data())
+      
+      /******* Ex#3 - Étape G ********************************/
+          reponse => {
+            reponse.forEach(
+              doss => tabProduits.push(doss.data())
+            )
+          }
       );
+      setProduits(tabProduits);
     }
     getProduits();
   }, []); // Ne modifiez surtout pas le tableau des dépendances à gauche : vous risquez un appel récurent sans fin de l'API Firebase !!!!
@@ -48,7 +53,7 @@ export default function ListeProduits({props}) {
         */}
         {
           produits.map(
-            produit => <Produit etatPanier={props.etatPanier} key={produit.id} nom={produit.nom} prix={produit.prix}/>
+            prd => <Produit etatPanier={props.etatPanier} key={prd.id} nom={prd.nom} prix={prd.prix} id={prd.id}/>
           )
         }
       </ul>
