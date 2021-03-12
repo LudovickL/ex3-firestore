@@ -23,14 +23,14 @@ export default function ListeProduits(props) {
       // [Suggestion : remarquez que la fonction getProduits() est marquée 'async'. Lorsque vous appelez la méthode Firestore qui retourne les produits, cette fonction 
       // est une Promesse, vous pouvez simplement utiliser la syntax 'await' pour attendre le résultat avant de remplir le tableau tabProduits 
       // (visionnez la capsule au sujet du code asynchrone en JavaScript)]
-      const reponse = await bd.collection("ex3-produits").get().then(
+      await bd.collection("ex3-produits").get().then(
         
       
       
       /******* Ex#3 - Étape G ********************************/
           reponse => {
             reponse.forEach(
-              doss => tabProduits.push(doss.data())
+              prd => tabProduits.push(prd.data())
             )
           }
       );
